@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from 'react'
+import { toast } from 'react-toastify'
 import { tasks as data } from '../data/tasks';
 
 export const TaskContext = createContext();
@@ -25,11 +26,18 @@ export function TaskContextProvider(props) {
         setTasks(tasks.filter(t => t.id !== id));
     };
 
+    const messageInfo = (text) => toast.info(text, {
+        position: "top-center",
+        closeOnClick: true,
+        autoClose: 3000,
+    });
+
     return (
         <TaskContext.Provider value={{
             tasks: tasks,
             createTask: createTask,
-            deleteTask: deleteTask
+            deleteTask: deleteTask,
+            messageInfo: messageInfo
         }}>
             {props.children}
         </TaskContext.Provider>

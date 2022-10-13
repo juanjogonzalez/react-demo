@@ -1,23 +1,34 @@
 import { useState, useContext } from 'react';
 import { TaskContext } from '../context/TaskContext';
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.min.css';
 
 function TaskForm() {
 
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
 
-    const { createTask } = useContext(TaskContext)
+    const { createTask, messageInfo } = useContext(TaskContext)
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const newTask = {
-            title: title,
-            description: description
-        };
-        createTask(newTask);
-        setTitle('');
-        setDescription('');
-    }
+        if (title.length > 0  && description.length > 0)
+        {
+            const newTask = {
+                title: title,
+                description: description
+            };
+            createTask(newTask);
+            setTitle('');
+            setDescription('');
+        }
+        else
+        {
+            messageInfo("Ingrese Título y descripción")
+        }
+        
+    }    
 
     return (
         <div className="max-w-md mx-auto">
@@ -36,6 +47,7 @@ function TaskForm() {
                     Guardar
                 </button>
             </form>
+            <ToastContainer />
         </div>
     )
 }
